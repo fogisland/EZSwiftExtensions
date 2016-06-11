@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension NSURL {
     /// EZSE: Returns convert query to Dictionary

@@ -462,10 +462,12 @@ extension UIView {
     }
 
     /// EZSwiftExtensions - Make sure you use  "[weak self] (gesture) in" if you are using the keyword self inside the closure or there might be a memory leak
-    public func addTapGesture(tapNumber tapNumber: Int = 1, action: ((UITapGestureRecognizer) -> ())?) {
+    public func addTapGesture(tapNumber tapNumber: Int = 1, action: ((UITapGestureRecognizer) -> ())?) -> UITapGestureRecognizer {
         let tap = BlockTap(tapCount: tapNumber, fingerCount: 1, action: action)
         addGestureRecognizer(tap)
         userInteractionEnabled = true
+        
+        return tap
     }
 
     /// EZSwiftExtensions

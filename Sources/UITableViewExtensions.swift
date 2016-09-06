@@ -11,8 +11,7 @@ import UIKit
 #if os(iOS)
     
     extension UITableView {
-        // 不会清除 cell 的 selection 状态
-        public func softReload(action: (() -> Void)?) {
+        public func updates(action: (() -> Void)?) {
             beginUpdates()
             if let action = action {
                 action()

@@ -109,6 +109,12 @@ extension NSDate {
             return "\(components.second) seconds ago"
         }
     }
+    
+    public func midnight() -> NSDate {
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components([.Year, .Month, .Day], fromDate: self)
+        return calendar.dateFromComponents(components)!
+    }
 
 }
 

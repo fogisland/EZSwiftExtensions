@@ -343,6 +343,11 @@ extension UIView {
     public func addBorderBottom(size size: CGFloat, color: UIColor) {
         addBorderUtility(x: 0, y: frame.height - size, width: frame.width, height: size, color: color)
     }
+    
+    public func addBorderTopAndBottom(size size: CGFloat, color: UIColor) {
+        addBorderTop(size: size, color: color)
+        addBorderBottom(size: size, color: color)
+    }
 
     /// EZSwiftExtensions
     public func addBorderLeft(size size: CGFloat, color: UIColor) {

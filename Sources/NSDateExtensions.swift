@@ -115,6 +115,50 @@ extension NSDate {
         let components = calendar.components([.Year, .Month, .Day], fromDate: self)
         return calendar.dateFromComponents(components)!
     }
+    
+    public func allDaysInSameWeek() -> [NSDate] {
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components([.Year, .Month, .WeekOfMonth], fromDate: self)
+        
+        var ret = [NSDate]()
+        for weekDay in 1...7 {
+            components.weekday = weekDay
+            ret.append(calendar.dateFromComponents(components)!)
+        }
+        
+        return ret
+    }
+    
+    public func allDaysInSameMonth() -> [NSDate] {
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components([.Year, .Month], fromDate: self)
+        
+        var ret = [NSDate]()
+        for day in 1...31 {
+            components.day = day
+            if let date = calendar.dateFromComponents(components) {
+                ret.append(date)
+            }
+        }
+        
+        return ret
+    }
+    
+    public func isSameWeek(date: NSDate) -> Bool {
+        let calendar = NSCalendar.currentCalendar()
+        let c1 = calendar.components([.Year, .Month, .WeekOfMonth], fromDate: self)
+        let c2 = calendar.components([.Year, .Month, .WeekOfMonth], fromDate: date)
+        
+        return c1 == c2
+    }
+    
+    public func isSameMonth(date: NSDate) -> Bool {
+        let calendar = NSCalendar.currentCalendar()
+        let c1 = calendar.components([.Year, .Month], fromDate: self)
+        let c2 = calendar.components([.Year, .Month], fromDate: date)
+        
+        return c1 == c2
+    }
 
 }
 

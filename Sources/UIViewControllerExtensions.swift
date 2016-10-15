@@ -214,6 +214,14 @@ extension UIViewController {
     public func pushVC(vc: UIViewController) {
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    public func pushVCAndHideTabbar(vc: UIViewController, isTop: Bool=false) {
+        hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+        if isTop {
+            hidesBottomBarWhenPushed = false
+        }
+    }
 
     /// EZSwiftExtensions
     public func popVC() {

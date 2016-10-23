@@ -146,8 +146,8 @@ extension NSDate {
     
     public func isSameWeek(date: NSDate) -> Bool {
         let calendar = NSCalendar.currentCalendar()
-        let c1 = calendar.components([.Year, .Month, .WeekOfMonth], fromDate: self)
-        let c2 = calendar.components([.Year, .Month, .WeekOfMonth], fromDate: date)
+        let c1 = calendar.components([.Year, .WeekOfYear], fromDate: self)
+        let c2 = calendar.components([.Year, .WeekOfYear], fromDate: date)
         
         return c1 == c2
     }

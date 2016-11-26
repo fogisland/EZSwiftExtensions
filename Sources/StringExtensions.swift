@@ -315,6 +315,14 @@ extension String {
         }
         return false
     }
+    
+    func localized(comment: String = "") -> String {
+        return NSLocalizedString(self, comment: comment)
+    }
+    
+    func localizedWithArguments(arguments: CVarArgType...) -> String {
+        return String(format: self.localized(), arguments: arguments)
+    }
 }
 
 /// EZSE: Pattern matching of strings via defined functions

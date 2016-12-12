@@ -156,6 +156,21 @@ extension NSDate {
         
         return c1 == c2
     }
+    
+    public func convertDateToTodayWithSameTime() -> NSDate {
+        let calendar = NSCalendar.currentCalendar()
+        let targetComponents = NSDateComponents.init()
+        let todayComponents = calendar.components([.Year, .Month, .Day], fromDate: NSDate())
+        let selfComponents = calendar.components([.Hour, .Minute, .Second], fromDate: self)
+        targetComponents.year = todayComponents.year
+        targetComponents.month = todayComponents.month
+        targetComponents.day = todayComponents.day
+        targetComponents.hour = selfComponents.hour
+        targetComponents.minute = selfComponents.minute
+        targetComponents.second = selfComponents.second
+        
+        return calendar.dateFromComponents(targetComponents)!
+    }
 
 }
 

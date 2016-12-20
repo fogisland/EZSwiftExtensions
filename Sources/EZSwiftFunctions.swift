@@ -60,6 +60,22 @@ public struct ez {
         return false
     #endif
     }
+    
+    public static var isDevelopment: Bool {
+        #if DEVELOPMENT
+            return true
+        #else
+            return false
+        #endif
+    }
+    
+    public static var isProduction: Bool {
+        #if DEVELOPMENT
+            return false
+        #else
+            return true
+        #endif
+    }
 
     /// EZSE: Returns true if RELEASE mode is active //TODO: Add to readme
     public static var isRelease: Bool {

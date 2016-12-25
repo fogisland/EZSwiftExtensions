@@ -7,11 +7,27 @@
 //
 import UIKit
 
+class DateFormatterCache {
+    static let c = DateFormatterCache()
+    
+    var cachedFormatters = [String: NSDateFormatter]()
+    
+    func getFormatter(format: String) -> NSDateFormatter {
+        if let formatter = cachedFormatters[format] {
+            return formatter
+        } else {
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = format
+            cachedFormatters[format] = formatter
+            return formatter
+        }
+    }
+}
+
 extension NSDate {
     /// EZSE: Initializes NSDate from string and format
     public convenience init?(fromString string: String, format: String) {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = format
+        let formatter = DateFormatterCache.c.getFormatter(format)
         if let date = formatter.dateFromString(string) {
             self.init(timeInterval: 0, sinceDate: date)
         } else {
@@ -48,8 +64,7 @@ extension NSDate {
 
     /// EZSE: Converts NSDate to String, with format
     public func toString(format format: String) -> String {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = format
+        let formatter = DateFormatterCache.c.getFormatter(format)
         return formatter.stringFromDate(self)
     }
 

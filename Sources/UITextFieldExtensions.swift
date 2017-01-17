@@ -21,4 +21,51 @@ extension UITextField {
         // add a toolbar with a done button above the number pad
         inputAccessoryView = keypadToolbar
     }
+    
+    public func addNumberAdjustButtons() {
+        let keypadToolbar: UIToolbar = UIToolbar()
+        
+        keypadToolbar.items=[
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
+            UIBarButtonItem(title: NSLocalizedString("-10", comment: ""), style: .Plain, target: self, action: #selector(subtractCurrentNumberWith10)),
+            
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
+            UIBarButtonItem(title: NSLocalizedString("-1", comment: ""), style: .Plain, target: self, action: #selector(subtractCurrentNumberWith1)),
+            
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
+            UIBarButtonItem(title: NSLocalizedString("+1", comment: ""), style: .Plain, target: self, action: #selector(addCurrentNumberWith1)),
+            
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
+            UIBarButtonItem(title: NSLocalizedString("+10", comment: ""), style: .Plain, target: self, action: #selector(addCurrentNumberWith10)),
+            
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
+            UIBarButtonItem(title: "Done", style: .Done, target: self, action: #selector(UITextField.resignFirstResponder))
+        ]
+        keypadToolbar.sizeToFit()
+        // add a toolbar with a done button above the number pad
+        inputAccessoryView = keypadToolbar
+    }
+    
+    func subtractCurrentNumberWith10() {
+        adjustCurrentNumberWith(-10)
+    }
+    
+    func subtractCurrentNumberWith1() {
+        adjustCurrentNumberWith(-1)
+    }
+    
+    func addCurrentNumberWith1() {
+        adjustCurrentNumberWith(1)
+    }
+    
+    func addCurrentNumberWith10() {
+        adjustCurrentNumberWith(10)
+    }
+    
+    func adjustCurrentNumberWith(value: Int) {
+        let newNumber = ((text ?? "").toInt() ?? 0) + value
+        self.text = (newNumber > 0 ? newNumber : 0).toString
+    }
 }

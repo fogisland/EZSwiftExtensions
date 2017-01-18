@@ -30,14 +30,16 @@ extension UITextField {
             UIBarButtonItem(title: NSLocalizedString("-10", comment: ""), style: .Plain, target: self, action: #selector(subtractCurrentNumberWith10)),
             
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
+            UIBarButtonItem(title: NSLocalizedString("+10", comment: ""), style: .Plain, target: self, action: #selector(addCurrentNumberWith10)),
+            
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
             UIBarButtonItem(title: NSLocalizedString("-1", comment: ""), style: .Plain, target: self, action: #selector(subtractCurrentNumberWith1)),
             
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
             UIBarButtonItem(title: NSLocalizedString("+1", comment: ""), style: .Plain, target: self, action: #selector(addCurrentNumberWith1)),
-            
-            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
-            UIBarButtonItem(title: NSLocalizedString("+10", comment: ""), style: .Plain, target: self, action: #selector(addCurrentNumberWith10)),
             
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil),

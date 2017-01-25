@@ -50,5 +50,22 @@ extension UITextView {
         inputAccessoryView = keyboardToolbar
     }
     
+    public func addClearButton(barStyle: UIBarStyle = .Default) {
+        let keyboardToolbar = UIToolbar()
+        keyboardToolbar.items = [
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: NSLocalizedString("清空", comment: "").capitalizedString, style: .Done, target: self, action: #selector(clearText))
+            
+        ]
+        
+        keyboardToolbar.barStyle = barStyle
+        keyboardToolbar.sizeToFit()
+        
+        inputAccessoryView = keyboardToolbar
+    }
+    
+    func clearText() {
+        self.text = nil
+    }
     #endif
 }

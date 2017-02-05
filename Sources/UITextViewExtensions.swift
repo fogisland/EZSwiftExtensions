@@ -49,24 +49,14 @@ extension UITextView {
         
         inputAccessoryView = keyboardToolbar
     }
+    #endif
     
-    public func addClearButton(tintColor: UIColor) {
-        let keyboardToolbar = UIToolbar()
-        let clearBtn = UIBarButtonItem(title: NSLocalizedString("清空", comment: "").capitalizedString, style: .Done, target: self, action: #selector(clearText))
-        clearBtn.tintColor = tintColor
-        keyboardToolbar.items = [
-            clearBtn,
-            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
-        ]
-        
-        keyboardToolbar.barStyle = .Default
-        keyboardToolbar.sizeToFit()
-        
-        inputAccessoryView = keyboardToolbar
-    }
     
     func clearText() {
         self.text = nil
     }
-    #endif
+    
+    func dismissKeyboard() {
+        self.resignFirstResponder()
+    }
 }

@@ -26,8 +26,16 @@ class DateFormatterCache {
 
 extension NSDate {
     /// EZSE: Initializes NSDate from string and format
-    public convenience init?(fromString string: String, format: String) {
-        let formatter = DateFormatterCache.c.getFormatter(format)
+    public convenience init?(fromString string: String, format: String, useCache: Bool=false) {
+        var formatter: NSDateFormatter
+        
+        if useCache {
+            formatter = DateFormatterCache.c.getFormatter(format)
+        } else {
+            formatter = NSDateFormatter()
+            formatter.dateFormat = format
+        }
+        
         if let date = formatter.dateFromString(string) {
             self.init(timeInterval: 0, sinceDate: date)
         } else {
@@ -63,8 +71,14 @@ extension NSDate {
     }
 
     /// EZSE: Converts NSDate to String, with format
-    public func toString(format format: String) -> String {
-        let formatter = DateFormatterCache.c.getFormatter(format)
+    public func toString(format format: String, useCache: Bool=false) -> String {
+        var formatter: NSDateFormatter
+        if useCache {
+            formatter = DateFormatterCache.c.getFormatter(format)
+        } else {
+            formatter = NSDateFormatter()
+            formatter.dateFormat = format
+        }
         return formatter.stringFromDate(self)
     }
 

@@ -145,8 +145,9 @@ extension NSDate {
         return calendar.dateFromComponents(components)!
     }
     
-    public func allDaysInSameWeek() -> [NSDate] {
+    public func allDaysInSameWeek(firstWeekday: Int) -> [NSDate] {
         let calendar = NSCalendar.currentCalendar()
+        calendar.firstWeekday = firstWeekday
         let components = calendar.components([.Year, .Month, .WeekOfMonth], fromDate: self)
         
         var ret = [NSDate]()

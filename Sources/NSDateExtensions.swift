@@ -148,11 +148,23 @@ extension NSDate {
     public func allDaysInSameWeek(firstWeekday: Int) -> [NSDate] {
         let calendar = NSCalendar.currentCalendar()
         calendar.firstWeekday = firstWeekday
+        
         let components = calendar.components([.Year, .Month, .WeekOfMonth], fromDate: self)
         
         var ret = [NSDate]()
-        for weekDay in 1...7 {
-            components.weekday = weekDay
+        
+        var sortedWeekdays: [Int]
+        if firstWeekday == 1 {
+            sortedWeekdays = [1, 2, 3, 4, 5, 6, 7]
+        } else if firstWeekday == 2 {
+            sortedWeekdays = [2, 3, 4, 5, 6, 7, 1]
+        } else {
+            assert(false)
+            sortedWeekdays = [1, 2, 3, 4, 5, 6, 7]
+        }
+        
+        sortedWeekdays.forEach {
+            components.weekday = $0
             ret.append(calendar.dateFromComponents(components)!)
         }
         

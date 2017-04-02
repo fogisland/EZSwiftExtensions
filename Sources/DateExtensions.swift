@@ -7,14 +7,114 @@
 //
 import UIKit
 
+class DateFormatterCache {
+    static let c = DateFormatterCache()
+    
+    var cachedFormatters = [String: DateFormatter]()
+    
+    func getFormatter(format: String) -> DateFormatter {
+        if let formatter = cachedFormatters[format] {
+            return formatter
+        } else {
+            let formatter = DateFormatter()
+            formatter.dateFormat = format
+            cachedFormatters[format] = formatter
+            return formatter
+        }
+    }
+}
+
 extension Date {
+    
+    public func midnight() -> NSDate {
+        let calendar = Calendar.current()
+        let components = calendar.components([.Year, .Month, .Day], fromDate: self)
+        return calendar.dateFromComponents(components)!
+    }
+    
+    public func allDaysInSameWeek(firstWeekday: Int) -> [NSDate] {
+        let calendar = Calendar.current()
+        calendar.firstWeekday = firstWeekday
+        
+        let components = calendar.components([.Year, .Month, .WeekOfMonth], fromDate: self)
+        
+        var ret = [NSDate]()
+        
+        var sortedWeekdays: [Int]
+        if firstWeekday == 1 {
+            sortedWeekdays = [1, 2, 3, 4, 5, 6, 7]
+        } else if firstWeekday == 2 {
+            sortedWeekdays = [2, 3, 4, 5, 6, 7, 1]
+        } else {
+            assert(false)
+            sortedWeekdays = [1, 2, 3, 4, 5, 6, 7]
+        }
+        
+        sortedWeekdays.forEach {
+            components.weekday = $0
+            ret.append(calendar.dateFromComponents(components)!)
+        }
+        
+        return ret
+    }
+    
+    public func allDaysInSameMonth() -> [NSDate] {
+        let calendar = Calendar.current()
+        let components = calendar.components([.Year, .Month], fromDate: self)
+        
+        var ret = [NSDate]()
+        for day in 1...31 {
+            components.day = day
+            if let date = calendar.dateFromComponents(components) {
+                ret.append(date)
+            }
+        }
+        
+        return ret
+    }
+    
+    public func isSameWeek(date: NSDate) -> Bool {
+        let calendar = Calendar.current()
+        return calendar.isDate(self, equalToDate: date, toUnitGranularity: .WeekOfYear)
+    }
+    
+    public func isSameMonth(date: NSDate) -> Bool {
+        let calendar = Calendar.current()
+        let c1 = calendar.components([.Year, .Month], fromDate: self)
+        let c2 = calendar.components([.Year, .Month], fromDate: date)
+        
+        return c1 == c2
+    }
+    
+    public func convertDateToTodayWithSameTime() -> NSDate {
+        let calendar = Calendar.current()
+        let targetComponents = NSDateComponents.init()
+        let todayComponents = calendar.components([.Year, .Month, .Day], fromDate: Date())
+        let selfComponents = calendar.components([.Hour, .Minute, .Second], fromDate: self)
+        targetComponents.year = todayComponents.year
+        targetComponents.month = todayComponents.month
+        targetComponents.day = todayComponents.day
+        targetComponents.hour = selfComponents.hour
+        targetComponents.minute = selfComponents.minute
+        targetComponents.second = selfComponents.second
+        
+        return calendar.dateFromComponents(targetComponents)!
+    }
+
 
     public static let minutesInAWeek = 24 * 60 * 7
 
     /// EZSE: Initializes Date from string and format
-    public init?(fromString string: String, format: String) {
-        let formatter = DateFormatter()
-        formatter.dateFormat = format
+    public init?(fromString string: String, format: String, useCache: Bool=false) {
+        var formatter: DateFormatter
+        
+        if useCache {
+            formatter = DateFormatterCache.c.getFormatter(format: format)
+        } else {
+            formatter = DateFormatter()
+            formatter.dateFormat = format
+        }
+
         if let date = formatter.date(from: string) {
             self = date
         } else {
@@ -49,9 +149,15 @@ extension Date {
     }
 
     /// EZSE: Converts Date to String, with format
-    public func toString(format: String) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = format
+    public func toString(format: String, useCache: Bool=false) -> String {
+        var formatter: DateFormatter
+        if useCache {
+            formatter = DateFormatterCache.c.getFormatter(format: format)
+        } else {
+            formatter = DateFormatter()
+            formatter.dateFormat = format
+        }
+
         return formatter.string(from: self)
     }
 

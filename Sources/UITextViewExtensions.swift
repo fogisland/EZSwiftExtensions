@@ -51,4 +51,13 @@ extension UITextView {
     }
 
     #endif
+    
+    func clearText() {
+        self.text = nil
+    }
+    
+    func dismissKeyboard() {
+        self.resignFirstResponder()
+    }
+
 }

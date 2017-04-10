@@ -26,19 +26,19 @@ class DateFormatterCache {
 
 extension Date {
     
-    public func midnight() -> NSDate {
-        let calendar = Calendar.current()
-        let components = calendar.components([.Year, .Month, .Day], fromDate: self)
-        return calendar.dateFromComponents(components)!
+    public func midnight() -> Date {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: self)
+        return calendar.date(from: components)!
     }
     
-    public func allDaysInSameWeek(firstWeekday: Int) -> [NSDate] {
-        let calendar = Calendar.current()
+    public func allDaysInSameWeek(firstWeekday: Int) -> [Date] {
+        var calendar = Calendar.current
         calendar.firstWeekday = firstWeekday
         
-        let components = calendar.components([.Year, .Month, .WeekOfMonth], fromDate: self)
+        var components = calendar.dateComponents([.year, .month, .weekOfMonth], from: self)
         
-        var ret = [NSDate]()
+        var ret = [Date]()
         
         var sortedWeekdays: [Int]
         if firstWeekday == 1 {
@@ -52,20 +52,20 @@ extension Date {
         
         sortedWeekdays.forEach {
             components.weekday = $0
-            ret.append(calendar.dateFromComponents(components)!)
+            ret.append(calendar.date(from: components)!)
         }
         
         return ret
     }
     
-    public func allDaysInSameMonth() -> [NSDate] {
-        let calendar = Calendar.current()
-        let components = calendar.components([.Year, .Month], fromDate: self)
+    public func allDaysInSameMonth() -> [Date] {
+        let calendar = Calendar.current
+        var components = calendar.dateComponents([.year, .month], from: self)
         
-        var ret = [NSDate]()
+        var ret = [Date]()
         for day in 1...31 {
             components.day = day
-            if let date = calendar.dateFromComponents(components) {
+            if let date = calendar.date(from: components) {
                 ret.append(date)
             }
         }
@@ -73,32 +73,32 @@ extension Date {
         return ret
     }
     
-    public func isSameWeek(date: NSDate) -> Bool {
-        let calendar = Calendar.current()
-        return calendar.isDate(self, equalToDate: date, toUnitGranularity: .WeekOfYear)
+    public func isSameWeek(date: Date) -> Bool {
+        let calendar = Calendar.current
+        return calendar.compare(self, to: date, toGranularity: .weekOfYear) == .orderedSame
     }
     
-    public func isSameMonth(date: NSDate) -> Bool {
-        let calendar = Calendar.current()
-        let c1 = calendar.components([.Year, .Month], fromDate: self)
-        let c2 = calendar.components([.Year, .Month], fromDate: date)
+    public func isSameMonth(date: Date) -> Bool {
+        let calendar = Calendar.current
+        let c1 = calendar.dateComponents([.year, .month], from: self)
+        let c2 = calendar.dateComponents([.year, .month], from: date)
         
         return c1 == c2
     }
     
-    public func convertDateToTodayWithSameTime() -> NSDate {
-        let calendar = Calendar.current()
+    public func convertDateToTodayWithSameTime() -> Date {
+        let calendar = Calendar.current
         let targetComponents = NSDateComponents.init()
-        let todayComponents = calendar.components([.Year, .Month, .Day], fromDate: Date())
-        let selfComponents = calendar.components([.Hour, .Minute, .Second], fromDate: self)
-        targetComponents.year = todayComponents.year
-        targetComponents.month = todayComponents.month
-        targetComponents.day = todayComponents.day
-        targetComponents.hour = selfComponents.hour
-        targetComponents.minute = selfComponents.minute
-        targetComponents.second = selfComponents.second
+        let todayComponents = calendar.dateComponents([.year, .month, .day], from: Date())
+        let selfComponents = calendar.dateComponents([.hour, .minute, .second], from: self)
+        targetComponents.year = todayComponents.year!
+        targetComponents.month = todayComponents.month!
+        targetComponents.day = todayComponents.day!
+        targetComponents.hour = selfComponents.hour!
+        targetComponents.minute = selfComponents.minute!
+        targetComponents.second = selfComponents.second!
         
-        return calendar.dateFromComponents(targetComponents)!
+        return calendar.date(from: targetComponents)!
     }
 
 

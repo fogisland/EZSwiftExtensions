@@ -228,6 +228,15 @@ extension UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    public func pushVCAndHideTabbar(vc: UIViewController, isTop: Bool=false) {
+        hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+        if isTop {
+            hidesBottomBarWhenPushed = false
+        }
+    }
+
+    
     ///EZSE: Pops the top view controller from the navigation stack and updates the display.
     public func popVC() {
         _ = navigationController?.popViewController(animated: true)

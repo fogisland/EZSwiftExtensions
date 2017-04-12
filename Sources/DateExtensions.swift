@@ -98,7 +98,7 @@ extension Date {
         targetComponents.minute = selfComponents.minute!
         targetComponents.second = selfComponents.second!
         
-        return calendar.date(from: targetComponents)!
+        return calendar.date(from: targetComponents as DateComponents)!
     }
 
 
